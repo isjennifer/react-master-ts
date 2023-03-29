@@ -1,10 +1,26 @@
-import Circle from "./Circle";
+import { useState } from "react";
 
 function App() {
+  const [value, setValue] = useState("");
+  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const value = event.currentTarget.value
+    setValue(value)
+  };
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log("Hello", value)
+  };
   return (
     <div>
-      <Circle borderColor="black" bgColor="teal"/>
-      <Circle text="im here" bgColor="tomato"/>
+      <form onSubmit={onSubmit}>
+        <input 
+          value={value} 
+          onChange={onChange} 
+          type="text" 
+          placeholder="username" 
+        />
+        <button>Log in</button>
+      </form>
     </div>
   );
 }

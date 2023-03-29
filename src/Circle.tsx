@@ -1,29 +1,31 @@
 import styled from "styled-components";
 
-// 5) interface로 backgroundColor의 proptype 지정
 interface ContainerProps {
     backgroundColor: string;
+    borderColor: string;
 }
 
-// 6) backgroundColor를 받아옴
 const Container = styled.div<ContainerProps>`
     width: 200px;
     height: 200px;
     background-color: ${(props) => props.backgroundColor};
     border-radius: 100px;
+    border: 3px solid ${(props) => props.borderColor};
 `;
 
-// 3) interface로 bgColor의 proptype 지정해줌
+// optional props (선택적 props) : ? 붙이면 선택적 props가 됨(컴포넌트가 반드시 해당 props를 가지지 않아도 됨)
 interface CircleProps {
     bgColor: string;
+    borderColor?: string;
+    text?: string;
 }
 
-// 2) App 에서 받아온 bgColor 라는 prop을 받음 
-// 4) Container 에 backgroundColor 라는 prop으로 bgColor를 보냄
-function Circle({bgColor}:CircleProps) {
+// borderColor ?? bgColor 의미 : Circle이 borderColor라는 prop을 가지고 있으면 borderColor 값을 주고, 없다면 bgColor 값을 준다.
+function Circle({bgColor, borderColor, text = "default text"}:CircleProps) {
     return(
-        <Container backgroundColor={bgColor}>
-        </Container>     
+        <Container backgroundColor={bgColor} borderColor={borderColor ?? bgColor}>
+            {text}
+        </Container>
     );
 }
 

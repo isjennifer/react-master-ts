@@ -55,6 +55,7 @@ table {
 }
 a {
   text-decoration: none;
+  color: inherit;
 }
 * {
   box-sizing: border-box;

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
+
 const Container = styled.div`
     padding: 0px 20px;
     max-width: 480px;
@@ -81,18 +82,20 @@ function Coins() {
             <Header>
                 <Title>Coinsss</Title>
             </Header>
-            {loading ? <Loader>Loading...</Loader> : <CoinsList>
-                {coins.map(coin => 
-                    <Coin key={coin.id}>
-                        <Link to={`/${coin.id}`}>
-                            <Img src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
-                            {coin.name} &rarr;
-                        </Link>
-                    </Coin>)
-                }
-            </CoinsList>}
+            {loading ? <Loader>Loading...</Loader> : 
+                <CoinsList>
+                    {coins.map(coin => 
+                        <Coin key={coin.id}>
+                            <Link to={`/${coin.id}`} state={coin}>
+                                <Img src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
+                                {coin.name} &rarr;
+                            </Link>
+                        </Coin>)
+                    }
+                </CoinsList>}
         </Container>
         )
 }
+
 
 export default Coins;

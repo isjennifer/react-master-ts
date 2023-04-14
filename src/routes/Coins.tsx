@@ -56,13 +56,13 @@ const Img = styled.img`
 
 
 interface CoinInterface {
-    id: string,
-    name: string,
-    symbol: string,
-    rank: number,
-    is_new: boolean,
-    is_active: boolean,
-    type: string,
+    id: string;
+    name: string;
+    symbol: string;
+    rank: number;
+    is_new: boolean;
+    is_active: boolean;
+    type: string;
 }
 
 
@@ -82,17 +82,17 @@ function Coins() {
             <Header>
                 <Title>Coinsss</Title>
             </Header>
-            {loading ? <Loader>Loading...</Loader> : 
-                <CoinsList>
-                    {coins.map(coin => 
+            {loading ? (<Loader>Loading...</Loader>): 
+                (<CoinsList>
+                    {coins.map((coin) => (
                         <Coin key={coin.id}>
-                            <Link to={`/${coin.id}`} state={coin}>
+                            <Link to={`/${coin.id}`} state={ coin.name }>
                                 <Img src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
                                 {coin.name} &rarr;
                             </Link>
-                        </Coin>)
+                        </Coin>))
                     }
-                </CoinsList>}
+                </CoinsList>)}
         </Container>
         )
 }

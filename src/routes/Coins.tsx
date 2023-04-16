@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import fetchCoins from "./api"
+import fetchCoins from "./api";
+import { Helmet } from "react-helmet";
+
 
 
 const Container = styled.div`
@@ -16,6 +17,7 @@ const Header = styled.header`
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: 400;
 `;
 
 const CoinsList = styled.ul`
@@ -72,8 +74,11 @@ function Coins() {
     const { isLoading, data } = useQuery<CoinInterface[]>("allcoins", fetchCoins)
     return (
         <Container>
+            <Helmet>
+                <title>Coins</title>
+            </Helmet>   
             <Header>
-                <Title>Coinsss</Title>
+                <Title>Coins</Title>
             </Header>
             {isLoading ? (<Loader>Loading...</Loader>): 
                 (<CoinsList>

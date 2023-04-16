@@ -2,11 +2,11 @@ import { Routes, Route, useLocation, useParams, useMatch } from "react-router";
 import { Link } from "react-router-dom"
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
 import Price from "./Price";
 import Chart from "./Chart";
 import { fetchInfoData } from "./api";
 import { fetchPriceData } from "./api";
+import { Helmet } from "react-helmet";
 
 
 
@@ -17,14 +17,31 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-    height: 10vh;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    span:first-child{
+        font-size: 30px;
+        font-weight: 100;
+    }
+    span:last-child{
+        height: 10vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 400;
+    }
+`;
+
+const Img = styled.img`
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
 `;
 
 const Title = styled.h1`
     font-size: 48px;
+    margin-top: 10px;
     color : ${props => props.theme.accentColor}
 `;
 
@@ -145,23 +162,24 @@ interface IPriceData {
 
 
 function Coin() {
-    /* const [loading, setLoading] = useState(true);
-    const [info, setInfo] = useState<IInfoData>();
-    const [priceInfo, setPriceInfo] = useState<IPriceData>(); */
-
     const { coinId } = useParams<keyof RouteParams>();
     const { state } = useLocation() as RouteState;
     const chartMatch = useMatch("/:coinId/chart");
     const priceMatch = useMatch("/:coinId/price");
-
     const { isLoading:infoLoading , data:infoData } = useQuery<IInfoData>(["info",coinId], () => fetchInfoData(String(coinId)))
     const { isLoading:tickersLoading , data:tickersData } = useQuery<IPriceData>(["tickers",coinId], () => fetchPriceData(String(coinId)))
-
     const loading = infoLoading || tickersLoading
     return (
         <Container>
+            <Helmet>
+                <title>{state ? state : loading ? "Loading..." : infoData?.name}</title>
+            </Helmet>
             <Header>
-                <Title>{state ? state : loading ? "Loading..." : infoData?.name}</Title>
+                <span><Link to={"/"}>&larr;</Link></span>
+                <span>
+                    <Img src={`https://coinicons-api.vercel.app/api/icon/${infoData?.symbol.toLowerCase()}`} />
+                    <Title>{state ? state : loading ? "Loading..." : infoData?.name}</Title>
+                </span>
             </Header>
             {loading ? <Loader>Loading...</Loader> : 
             <>
@@ -201,10 +219,10 @@ function Coin() {
             </Tabs>
 
             <Routes>
-                <Route path="price" element={<Price />}></Route>
+                <Route path="price" element={<Price coinId={coinId}/>}></Route>
             </Routes>
             <Routes>
-                <Route path="chart" element={<Chart />}></Route>
+                <Route path="chart" element={<Chart coinId={coinId}/>}></Route>
             </Routes>
             </>
         }

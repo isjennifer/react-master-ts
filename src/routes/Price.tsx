@@ -5,7 +5,8 @@ import styled from "styled-components";
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${props => props.theme.textColor};
+  color : ${props => props.theme.bgColor};
   padding: 10px 20px;
   border-radius: 10px;
   margin-bottom: 20px;

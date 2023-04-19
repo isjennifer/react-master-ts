@@ -1,6 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./routes/Router"
 import { ReactQueryDevtools } from "react-query/devtools";
+import { darkTheme, lightTheme } from './theme';
+import { ThemeProvider } from 'styled-components';
+import { useState } from "react";
+
 
 
 const GlobalStyle = createGlobalStyle`
@@ -66,11 +70,16 @@ a {
 `;
 
 function App() {
+  const [isDark, setIsDark] = useState(false);
+  const toggleDark = () => {setIsDark((current) => !current)}
   return (
     <>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <button onClick={toggleDark}>toggle mode</button>
       <GlobalStyle />
       <Router />
       <ReactQueryDevtools initialIsOpen={true}/>
+      </ThemeProvider>
     </>
   )
 }

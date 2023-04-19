@@ -1,13 +1,13 @@
 import { Routes, Route, useLocation, useParams, useMatch } from "react-router";
 import { Link } from "react-router-dom"
 import { useQuery } from "react-query";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import Price from "./Price";
 import Chart from "./Chart";
 import { fetchInfoData } from "./api";
 import { fetchPriceData } from "./api";
 import { Helmet } from "react-helmet";
-
+import { DefaultTheme } from "styled-components";
 
 
 const Container = styled.div`
@@ -42,7 +42,7 @@ const Img = styled.img`
 const Title = styled.h1`
     font-size: 48px;
     margin-top: 10px;
-    color : ${props => props.theme.accentColor}
+    color : ${props => props.theme.accentColor};
 `;
 
 const Loader = styled.span`
@@ -53,7 +53,8 @@ const Loader = styled.span`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${props => props.theme.textColor};
+  color : ${props => props.theme.bgColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -61,6 +62,7 @@ const OverviewItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  color : ${props => props.theme.bgColor};
   span:first-child {
     font-size: 10px;
     font-weight: 400;
@@ -70,6 +72,7 @@ const OverviewItem = styled.div`
 `;
 const Description = styled.p`
   margin: 20px 0px;
+  color: ${props => props.theme.textColor};
 `;
 
 const Tabs = styled.div`
@@ -77,6 +80,7 @@ const Tabs = styled.div`
   grid-template-columns: repeat(2, 1fr);
   margin: 25px 0px;
   gap: 10px;
+  color : ${props => props.theme.bgColor};
 `;
 
 const Tab = styled.span<{ isActive: boolean }>`
@@ -84,11 +88,11 @@ const Tab = styled.span<{ isActive: boolean }>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${props => props.theme.textColor};
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
-    props.isActive ? props.theme.accentColor : props.theme.textColor};
+    props.isActive ? props.theme.accentColor : props.theme.bgColor};
   a {
     display: block;
   }

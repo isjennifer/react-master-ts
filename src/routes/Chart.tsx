@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import { fetchCoinHistory } from "./api";
 import ApexCharts from "react-apexcharts";
 
+
 interface ChartProps {
     coinId: string | undefined;
 }
@@ -93,19 +94,29 @@ function Chart({coinId}:ChartProps) {
                     mode:"dark",
                 },
                 xaxis: {
-                    type: 'datetime',
+                    labels:{
+                        show:false,
+                    },
+                    axisTicks:{
+                        show:false,
+                    },
                 },
                 yaxis :{
+                    labels:{
+                        show:false,
+                    },
                     tooltip:{
                         enabled: true,
                     }
+                },
+                grid:{
+                    show: false,
                 },
                 chart:{
                     toolbar:{
                         show:false,
                     },
-                    height:500,
-                    width:500,
+
                     background:"transparent",
                 },
         }}

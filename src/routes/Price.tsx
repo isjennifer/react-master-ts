@@ -11,10 +11,20 @@ const Overview = styled.div`
   margin-bottom: 20px;
 `;
 
+const OverviewDate = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  padding-right: 15px;
+`;
+
 const OverviewItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 15px;
   span:first-child {
     font-size: 10px;
     font-weight: 400;
@@ -40,13 +50,15 @@ interface ICoinHistory {
 
 function Price({coinId}:PriceProps) {
     const { isLoading, data } = useQuery<ICoinHistory[]>(["price",coinId],()=>fetchCoinHistory(coinId))
+    const result = data?.sort(function (a, b) {
+        return b.time_close - a.time_close;
+    });
     return <div>{isLoading ? "Loading Price..." : 
         data?.map((price) => 
             <Overview>
-                <OverviewItem>
-                    <span>Date:</span>
+                <OverviewDate>
                     <span>{new Date(price.time_close * 1000).toLocaleDateString()}</span>
-                </OverviewItem>
+                </OverviewDate>
                 <OverviewItem>
                     <span>Open:</span>
                     <span>${price.open}</span>

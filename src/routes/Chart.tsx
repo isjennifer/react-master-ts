@@ -17,10 +17,24 @@ interface ICoinHistory {
     market_cap: number;
 }
 
+
 function Chart({coinId}:ChartProps) {
     const { isLoading, data } = useQuery<ICoinHistory[]>(["ohlcv",coinId],()=>fetchCoinHistory(coinId))
-    console.log(data)
+    const candleX:any = data?.map((price)=>new Date(price.time_close * 1000).toUTCString());
+    const candleY:any =  data?.map((price)=>[price.open, price.high, price.low, price.close]);
+    function MakeCandleData(a:any, b:any) {
+        return{
+            x : a,
+            y : b
+        }
+    }
+    const candlestickData = [];
+    for(let key in candleX) {
+        candlestickData.push(MakeCandleData(candleX[key],candleY[key]));
+    }
+
     return <div>{ isLoading ? "Loading Chart..." : 
+        <>
         <ApexCharts
             type="line"
             series={[{
@@ -67,8 +81,37 @@ function Chart({coinId}:ChartProps) {
                 },
                 colors: ["#0fbcf9"]
             }} 
-        
-        />}</div>;
+        />
+        <ApexCharts
+            type="candlestick"
+            series={[{
+                name: "price",
+                data: candlestickData,
+            }]}
+            options={{
+                theme: {
+                    mode:"dark",
+                },
+                xaxis: {
+                    type: 'datetime',
+                },
+                yaxis :{
+                    tooltip:{
+                        enabled: true,
+                    }
+                },
+                chart:{
+                    toolbar:{
+                        show:false,
+                    },
+                    height:500,
+                    width:500,
+                    background:"transparent",
+                },
+        }}
+        />
+        </>
+        }</div>;
 }
 
 export default Chart;

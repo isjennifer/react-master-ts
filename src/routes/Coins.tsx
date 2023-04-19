@@ -37,8 +37,9 @@ const Coin = styled.li`
     }
     &:hover {
         a {
-            color: ${props => props.theme.accentColor}
+            color: ${props => props.theme.accentColor};
         }
+        transform: scale(1.1);
     }
 `;
 

@@ -71,10 +71,10 @@ interface CoinInterface {
 }
 
 interface ICoinsProps {
-    toggleDark : () => void;
+
 }
 
-function Coins({toggleDark}:ICoinsProps) {
+function Coins({}:ICoinsProps) {
     const { isLoading, data } = useQuery<CoinInterface[]>("allcoins", fetchCoins)
     return (
         <Container>
@@ -83,7 +83,6 @@ function Coins({toggleDark}:ICoinsProps) {
             </Helmet>   
             <Header>
                 <Title>Coins</Title>
-                <button onClick={toggleDark}>toggle button</button>
             </Header>
             {isLoading ? (<Loader>Loading...</Loader>): 
                 (<CoinsList>

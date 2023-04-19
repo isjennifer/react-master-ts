@@ -5,6 +5,7 @@ import ApexCharts from "react-apexcharts";
 
 interface ChartProps {
     coinId: string | undefined;
+    isDark: boolean;
 }
 
 interface ICoinHistory {
@@ -19,7 +20,7 @@ interface ICoinHistory {
 }
 
 
-function Chart({coinId}:ChartProps) {
+function Chart({coinId, isDark}:ChartProps) {
     const { isLoading, data } = useQuery<ICoinHistory[]>(["ohlcv",coinId],()=>fetchCoinHistory(coinId))
     const candleX:any = data?.map((price)=>new Date(price.time_close * 1000).toUTCString());
     const candleY:any =  data?.map((price)=>[price.open, price.high, price.low, price.close]);
@@ -44,7 +45,7 @@ function Chart({coinId}:ChartProps) {
             }]}
             options={{
                 theme: {
-                    mode:"dark"
+                    mode: isDark ? "dark" : "light",
                 },
                 chart:{
                     toolbar:{

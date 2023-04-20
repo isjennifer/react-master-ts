@@ -4,7 +4,8 @@ import { useQuery } from "react-query";
 import fetchCoins from "./api";
 import { Helmet } from "react-helmet";
 import { useSetRecoilState } from "recoil";
-import { isDarkAtom } from "../atoms";
+import { isDarkAtom} from "../atoms";
+import { useState } from "react";
 
 
 
@@ -20,6 +21,7 @@ const Header = styled.header`
     justify-content: center;
     align-items: center;
     font-weight: 400;
+
 `;
 
 const CoinsList = styled.ul`
@@ -61,6 +63,13 @@ const Img = styled.img`
     margin-right: 10px;
 `;
 
+const ModeImg = styled.img`
+    margin: 10px;
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
 
 interface CoinInterface {
     id: string;
@@ -77,9 +86,14 @@ interface ICoinsProps {
 }
 
 function Coins({}:ICoinsProps) {
-    const setDarkAtom = useSetRecoilState(isDarkAtom)
-    const toggleDarkAtom = () => setDarkAtom((prev) => !prev)
-    const { isLoading, data } = useQuery<CoinInterface[]>("allcoins", fetchCoins)
+    const setDarkAtom = useSetRecoilState(isDarkAtom);
+    const [img, setImg] = useState(false);
+    const toggleDarkAtom = () => {
+        setDarkAtom((prev) => !prev);
+        setImg(img ? false : true);
+    }
+
+    const { isLoading, data } = useQuery<CoinInterface[]>("allcoins", fetchCoins);
     return (
         <Container>
             <Helmet>
@@ -87,7 +101,7 @@ function Coins({}:ICoinsProps) {
             </Helmet>   
             <Header>
                 <Title>Coins</Title>
-                <button onClick={toggleDarkAtom}>toggle mode</button>
+                <ModeImg onClick={toggleDarkAtom} src={img ? "moon.png":"sun.png"} width={20}/>
             </Header>
             {isLoading ? (<Loader>Loading...</Loader>): 
                 (<CoinsList>

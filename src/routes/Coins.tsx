@@ -101,7 +101,7 @@ function Coins({}:ICoinsProps) {
             </Helmet>   
             <Header>
                 <Title>Coins</Title>
-                <ModeImg onClick={toggleDarkAtom} src={img ? "moon.png":"sun.png"} width={20}/>
+                <ModeImg onClick={toggleDarkAtom} src={img ? `${process.env.PUBLIC_URL}/moon.png` : `${process.env.PUBLIC_URL}/sun.png`} width={20}/>
             </Header>
             {isLoading ? (<Loader>Loading...</Loader>): 
                 (<CoinsList>
